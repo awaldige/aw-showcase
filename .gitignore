@@ -1,7 +1,7 @@
-# Dependências
+# DependÃªncias
 node_modules/
 
-# Variáveis de ambiente
+# VariÃ¡veis de ambiente
 .env
 .env.*
 !.env.example
@@ -17,10 +17,9 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 
-# Uploads
+# Uploads gerados
 uploads/*
 backend/uploads/*
-frontend/public/products/*
 
 # Sistema operacional
 .DS_Store
