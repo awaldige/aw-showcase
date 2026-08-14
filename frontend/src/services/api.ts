@@ -1,4 +1,4 @@
-﻿const API_URL = "http://localhost:3001/api";
+﻿const API_URL = "https://aw-showcase-api.onrender.com/api";
 
 // =========================
 // LISTAR PRODUTOS
