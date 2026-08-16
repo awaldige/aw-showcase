@@ -1,4 +1,28 @@
+
 const prisma = require("../config/prisma");
+const cloudinary = require("../config/cloudinary");
+
+// =========================
+// ENVIAR IMAGEM PARA CLOUDINARY
+// =========================
+const enviarImagemCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "aw-showcase/produtos",
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+
+    stream.end(buffer);
+  });
+};
 
 // =========================
 // LISTAR PRODUTOS
@@ -145,9 +169,15 @@ const criarProduto = async (req, res) => {
     // IMAGEM
     // =========================
 
-    const imagem = req.file
-      ? `/uploads/${req.file.filename}`
-      : null;
+    let imagem = null;
+
+    if (req.file) {
+      const resultado = await enviarImagemCloudinary(
+        req.file.buffer
+      );
+
+      imagem = resultado.secure_url;
+    }
 
     // =========================
     // CRIAR PRODUTO
@@ -181,6 +211,8 @@ const criarProduto = async (req, res) => {
     console.log(
       "Produto criado:",
       produto.nome,
+      "| imagem:",
+      produto.imagem,
       "| destaque:",
       produto.destaque,
       "| ativo:",
@@ -306,9 +338,15 @@ const atualizarProduto = async (req, res) => {
     // IMAGEM
     // =========================
 
-    const imagem = req.file
-      ? `/uploads/${req.file.filename}`
-      : produtoAtual.imagem;
+    let imagem = produtoAtual.imagem;
+
+    if (req.file) {
+      const resultado = await enviarImagemCloudinary(
+        req.file.buffer
+      );
+
+      imagem = resultado.secure_url;
+    }
 
     // =========================
     // ATUALIZAR
@@ -346,6 +384,8 @@ const atualizarProduto = async (req, res) => {
     console.log(
       "Produto atualizado:",
       produto.nome,
+      "| imagem:",
+      produto.imagem,
       "| destaque:",
       produto.destaque,
       "| ativo:",
