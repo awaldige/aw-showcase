@@ -1,9 +1,13 @@
-
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/dkpy0ps8t/image/upload/**",
+      },
       {
         protocol: "http",
         hostname: "localhost",
@@ -19,4 +23,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
